@@ -17,3 +17,4 @@ public class Battery {
         this.load = 0;
     }
 }
+
