@@ -4,7 +4,6 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-
 public class BatteryTest {
 
     @Test
@@ -13,7 +12,7 @@ public class BatteryTest {
         Battery another = new Battery(50);
         charger.exchange(another);
         int expected = 80;
-        assertThat(another.getLoad(),equalTo(expected));
+        assertThat(another.getLoad(), equalTo(expected));
     }
 
     @Test
@@ -22,7 +21,7 @@ public class BatteryTest {
         Battery another = new Battery(20);
         charger.exchange(another);
         int expected = 0;
-        assertThat(charger.getLoad(),equalTo(expected));
+        assertThat(charger.getLoad(), equalTo(expected));
     }
 
     @Test
@@ -31,6 +30,6 @@ public class BatteryTest {
         Battery another = new Battery(0);
         charger.exchange(another);
         int expected = 95;
-        assertThat(another.getLoad(),equalTo(expected));
+        assertThat(another.getLoad(), equalTo(expected));
     }
 }
