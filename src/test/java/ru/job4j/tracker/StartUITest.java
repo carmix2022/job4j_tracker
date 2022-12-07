@@ -69,6 +69,7 @@ public class StartUITest {
                         + "0. Exit Program" + System.lineSeparator()
         );
     }
+
     @Test
     public void whenReplaceItemTestOutputIsSuccessfully() {
         Output out = new StubOutput();
@@ -96,6 +97,7 @@ public class StartUITest {
                         + "=== Exit Program ===" + ln
         );
     }
+
         @Test
     public void whenShowItemsTestOutputIsSuccessfully() {
         Output out = new StubOutput();
@@ -122,6 +124,7 @@ public class StartUITest {
                         + "=== Exit Program ===" + ln
         );
     }
+
     @Test
     public void whenFindItemByNameTestOutputIsSuccessfully() {
         Output out = new StubOutput();
@@ -148,6 +151,7 @@ public class StartUITest {
                         + "=== Exit Program ===" + ln
         );
     }
+
     @Test
     public void whenFindItemByIdTestOutputIsSuccessfully() {
         Output out = new StubOutput();
