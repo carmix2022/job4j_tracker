@@ -34,9 +34,9 @@ public class ValidateInputTest {
                 new String[] {"1", "2", "3"}
         );
         ValidateInput input = new ValidateInput(out, in);
-        for (int i = 0; i < 3; i++) {
-            out.println(input.askInt("Enter menu:"));
-        }
+        out.println(input.askInt("Enter menu:"));
+        out.println(input.askInt("Enter menu:"));
+        out.println(input.askInt("Enter menu:"));
         String ln = System.lineSeparator();
         assertThat(out.toString()).isEqualTo(
                 "1" + ln
