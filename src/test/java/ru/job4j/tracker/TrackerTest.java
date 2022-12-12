@@ -31,7 +31,6 @@ public class TrackerTest {
         Item second = new Item("Second");
         tracker.add(first);
         tracker.add(second);
-        //Item result = tracker.findAll()[0];
         Item result = tracker.findAll().get(0);
         assertThat(result.getName()).isEqualTo(first.getName());
     }
@@ -46,9 +45,7 @@ public class TrackerTest {
         tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
-        //Item[] result = tracker.findByName(first.getName());
         List<Item> result = tracker.findByName(first.getName());
-        //assertThat(result.length).isEqualTo(3);
         assertThat(result.size()).isEqualTo(3);
     }
 
@@ -62,9 +59,7 @@ public class TrackerTest {
         tracker.add(new Item("First"));
         tracker.add(new Item("Second"));
         tracker.add(new Item("First"));
-        //Item[] result = tracker.findByName(second.getName());
         List<Item> result = tracker.findByName(second.getName());
-        //assertThat(result[1].getName()).isEqualTo(second.getName());
         assertThat(result.get(0).getName()).isEqualTo(second.getName());
     }
 
