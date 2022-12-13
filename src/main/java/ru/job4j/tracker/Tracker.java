@@ -19,7 +19,7 @@ public class Tracker {
     }
 
     public List<Item> findAll() {
-        return items;
+        return List.copyOf(items);
     }
 
     public List<Item> findByName(String key) {
@@ -33,14 +33,14 @@ public class Tracker {
     }
 
     private int indexOf(int id) {
-        Item item = null;
-        for (Item x : items) {
-            if (x.getId() == id) {
-                item = x;
+        int rsl = -1;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId() == id) {
+                rsl = i;
                 break;
             }
         }
-        return items.indexOf(item);
+        return rsl;
     }
 
     public boolean replace(int id, Item item) {
