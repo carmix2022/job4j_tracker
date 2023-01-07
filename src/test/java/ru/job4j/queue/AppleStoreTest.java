@@ -25,6 +25,18 @@ class AppleStoreTest {
     }
 
     @Test
+    void whenZeroCount() {
+        Queue<Customer> customers = new LinkedList<>();
+        customers.add(new Customer("Petr", 1000));
+        customers.add(new Customer("Stas", 1500));
+        customers.add(new Customer("Andrey", 850));
+        int count = 0;
+        AppleStore appleStore = new AppleStore(customers, count);
+        String customer = appleStore.getLastHappyCustomer();
+        assertThat(customer).isEqualTo("");
+    }
+
+    @Test
     void whenGetFirst() {
         Queue<Customer> customers = new LinkedList<>();
         customers.add(new Customer("Petr", 1000));
@@ -38,5 +50,17 @@ class AppleStoreTest {
         AppleStore appleStore = new AppleStore(customers, count);
         String customer = appleStore.getLastUpsetCustomer();
         assertThat(customer).isEqualTo("Iryna");
+    }
+
+    @Test
+    void whenQueueLessThanCount() {
+        Queue<Customer> customers = new LinkedList<>();
+        customers.add(new Customer("Petr", 1000));
+        customers.add(new Customer("Stas", 1500));
+        customers.add(new Customer("Andrey", 850));
+        int count = 4;
+        AppleStore appleStore = new AppleStore(customers, count);
+        String customer = appleStore.getLastUpsetCustomer();
+        assertThat(customer).isEqualTo("");
     }
 }
