@@ -21,21 +21,18 @@ public class PasswordValidator {
             throw new IllegalArgumentException("Password should contain at least one lowercase letter");
         }
         boolean digits = false;
+        boolean specials = false;
         for (char ch : password.toCharArray()) {
             if (isDigit(ch)) {
                 digits = true;
-                break;
+                continue;
+            }
+            if (!isLetterOrDigit(ch)) {
+                specials = true;
             }
         }
         if (!digits) {
             throw new IllegalArgumentException("Password should contain at least one figure");
-        }
-        boolean specials = false;
-        for (char ch : password.toCharArray()) {
-            if (!isLetterOrDigit(ch)) {
-                specials = true;
-                break;
-            }
         }
         if (!specials) {
             throw new IllegalArgumentException("Password should contain at least one special symbol");
