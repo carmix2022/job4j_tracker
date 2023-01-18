@@ -7,6 +7,7 @@ import static java.lang.Character.isLetterOrDigit;
 public class PasswordValidator {
     private static final Set<String> STOP_STRINGS = Set.of("qwerty", "12345", "password", "admin", "user");
 
+    @SuppressWarnings("checkstyle:SimplifyBooleanExpression")
     public static String validate(String password) {
         if (password == null) {
             throw new IllegalArgumentException("Password can't be null");
@@ -25,10 +26,11 @@ public class PasswordValidator {
         for (char ch : password.toCharArray()) {
             if (isDigit(ch)) {
                 digits = true;
-                continue;
-            }
-            if (!isLetterOrDigit(ch)) {
+            } else if (!isLetterOrDigit(ch)) {
                 specials = true;
+            }
+            if (digits && specials) {
+                break;
             }
         }
         if (!digits) {
