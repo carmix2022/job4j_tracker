@@ -9,7 +9,7 @@ public class Departments {
         for (String value : deps) {
             String start = "";
             for (String el : value.split("/")) {
-                start = "".equals(start) ? start +  el : start + "/" +  el;
+                start += "".equals(start) ? el : "/" +  el;
                 tmp.add(start);
             }
         }
