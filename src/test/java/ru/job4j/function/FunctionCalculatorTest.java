@@ -15,6 +15,7 @@ public class FunctionCalculatorTest {
         List<Double> expected = Arrays.asList(11D, 13D, 15D);
         assertThat(result).containsAll(expected);
     }
+
     @Test
     public void whenQuadraticFunctionThenQuadraticResults() {
         FunctionCalculator function = new FunctionCalculator();
