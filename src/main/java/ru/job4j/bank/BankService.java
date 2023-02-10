@@ -73,14 +73,12 @@ public class    BankService {
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
-        if (user != null) {
-            return users.get(user)
-                    .stream().
-                    filter(a -> a.getRequisite().equals(requisite))
-                    .findFirst()
-                    .orElse(null);
-        }
-        return null;
+        return user != null ? users.get(user)
+                .stream().
+                filter(a -> a.getRequisite().equals(requisite))
+                .findFirst()
+                .orElse(null)
+                : null;
     }
 
     /**
