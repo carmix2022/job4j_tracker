@@ -5,6 +5,7 @@ import ru.job4j.tracker.Store;
 
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -35,6 +36,12 @@ public class SqlTracker implements Store {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    private Item createItem(int id, String name, LocalDateTime ldt) {
+        Item rsl = new Item(id, name);
+        rsl.setCreated(ldt);
+        return rsl;
     }
 
     @Override
@@ -97,9 +104,10 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement("SELECT * FROM items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    listItems.add(new Item(
+                    listItems.add(createItem(
                             resultSet.getInt("id"),
-                            resultSet.getString("name")
+                            resultSet.getString("name"),
+                            resultSet.getTimestamp("created").toLocalDateTime()
                     ));
                 }
             }
@@ -116,9 +124,10 @@ public class SqlTracker implements Store {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    listItems.add(new Item(
+                    listItems.add(createItem(
                             resultSet.getInt("id"),
-                            key
+                            key,
+                            resultSet.getTimestamp("created").toLocalDateTime()
                     ));
                 }
             }
@@ -135,9 +144,10 @@ public class SqlTracker implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    rsl = new Item(
+                    rsl = createItem(
                             id,
-                            resultSet.getString("name")
+                            resultSet.getString("name"),
+                            resultSet.getTimestamp("created").toLocalDateTime()
                     );
                 }
             }

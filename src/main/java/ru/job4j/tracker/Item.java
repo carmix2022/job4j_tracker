@@ -34,6 +34,10 @@ public class Item {
         return name;
     }
 
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
