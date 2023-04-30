@@ -38,10 +38,12 @@ public class SqlTracker implements Store {
         }
     }
 
-    private Item createItem(int id, String name, LocalDateTime ldt) {
-        Item rsl = new Item(id, name);
-        rsl.setCreated(ldt);
-        return rsl;
+    private Item createItem(ResultSet rs) throws SQLException {
+        return new Item(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getTimestamp("created").toLocalDateTime()
+        );
     }
 
     @Override
@@ -104,11 +106,7 @@ public class SqlTracker implements Store {
         try (PreparedStatement statement = cn.prepareStatement("SELECT * FROM items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    listItems.add(createItem(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    listItems.add(createItem(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -124,11 +122,7 @@ public class SqlTracker implements Store {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    listItems.add(createItem(
-                            resultSet.getInt("id"),
-                            key,
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    listItems.add(createItem(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -144,11 +138,7 @@ public class SqlTracker implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    rsl = createItem(
-                            id,
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    );
+                    rsl = createItem(resultSet);
                 }
             }
         } catch (Exception e) {
