@@ -5,22 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.*;
 
 public class StartUITest {
-
-    /*@Test
-    public void whenCreateItem() {
-        Output out = new StubOutput();
-        Input in = new StubInput(
-                new String[] {"0", "Item name", "1"}
-        );
-        MemTracker tracker = new MemTracker();
-        UserAction[] actions = {
-                new CreateAction(out),
-                new ExitAction(out)
-        };
-        new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findAll()[0].getName()).isEqualTo("Item name");
-    }*/
-
     @Test
     public void whenCreateItem() {
         Output out = new StubOutput();
@@ -45,10 +29,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", String.valueOf(item.getId()), replacedName, "1"}
         );
-        /*UserAction[] actions = {
-                new EditAction(out),
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new EditAction(out),
                 new ExitAction(out)
@@ -65,10 +45,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", String.valueOf(item.getId()), "1"}
         );
-        /*UserAction[] actions = {
-                new DeleteAction(out),
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new DeleteAction(out),
                 new ExitAction(out)
@@ -84,9 +60,6 @@ public class StartUITest {
                 new String[] {"0"}
         );
         MemTracker tracker = new MemTracker();
-        /*UserAction[] actions = {
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new ExitAction(out)
         );
@@ -107,10 +80,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", String.valueOf(one.getId()), replaceName, "1"}
         );
-        /*UserAction[] actions = new UserAction[]{
-                new EditAction(out),
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new EditAction(out),
                 new ExitAction(out)
@@ -138,10 +107,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", "1"}
         );
-        /*UserAction[] actions = new UserAction[]{
-                new ShowAction(out),
-                new ExitAction(out)
-        };*/
             List<UserAction> actions = List.of(
                     new ShowAction(out),
                     new ExitAction(out)
@@ -169,10 +134,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", "test1", "1"}
         );
-        /*UserAction[] actions = new UserAction[]{
-                new FindByNameAction(out),
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new FindByNameAction(out),
                 new ExitAction(out)
@@ -200,10 +161,6 @@ public class StartUITest {
         Input in = new StubInput(
                 new String[] {"0", String.valueOf(one.getId()), "1"}
         );
-        /*UserAction[] actions = new UserAction[]{
-                new FindByIdAction(out),
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new FindByIdAction(out),
                 new ExitAction(out)
@@ -230,9 +187,6 @@ public class StartUITest {
                 new String[] {"10", "0"}
         );
         MemTracker tracker = new MemTracker();
-        /*UserAction[] actions = new UserAction[]{
-                new ExitAction(out)
-        };*/
         List<UserAction> actions = List.of(
                 new ExitAction(out)
         );
