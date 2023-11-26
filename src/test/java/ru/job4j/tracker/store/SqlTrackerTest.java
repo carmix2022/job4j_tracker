@@ -105,7 +105,7 @@ public class SqlTrackerTest {
                 .allSatisfy(e -> {
                     assertThat(e.getId()).isEqualTo(item7.getId());
                     assertThat(e.getName()).isEqualTo(item8.getName());
-                    assertThat(e.getDateTime()).isEqualTo(item8.getDateTime());
+                    assertThat(e.getCreated()).isEqualTo(item8.getCreated());
                 });
     }
 }
