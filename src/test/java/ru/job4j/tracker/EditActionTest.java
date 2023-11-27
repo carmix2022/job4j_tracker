@@ -40,6 +40,8 @@ class EditActionTest {
 
         Input input = mock(Input.class);
 
+        when(input.askStr(any(String.class))).thenReturn(replacedName);
+
         rep.execute(input, tracker);
 
         String ln = System.lineSeparator();

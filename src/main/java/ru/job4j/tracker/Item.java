@@ -4,15 +4,12 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public class Item {
-
-    @NonNull
     @Getter
     @Setter
     private int id;
@@ -25,7 +22,8 @@ public class Item {
     private LocalDateTime created = LocalDateTime.now().withNano(0);
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
-    public Item(String name) {
+    public Item(int id, String name) {
+        this.id = id;
         this.name = name;
     }
 
