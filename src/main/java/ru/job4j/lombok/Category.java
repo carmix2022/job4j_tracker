@@ -6,14 +6,9 @@ import lombok.*;
 @RequiredArgsConstructor
 public class Category {
     @Getter
-    @NonNull
-    private int id;
+    private final int id;
     @Getter
     @Setter
     @EqualsAndHashCode.Exclude
     private String name;
-
-    public static void main(String[] args) {
-        Category c = new Category(1);
-    }
 }
