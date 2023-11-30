@@ -6,8 +6,10 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public class HbmTracker implements Store, AutoCloseable {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -22,11 +24,11 @@ public class HbmTracker implements Store, AutoCloseable {
             Transaction currentTransaction = session.beginTransaction();
             session.save(item);
             currentTransaction.commit();
+            return item;
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
         }
-        return item;
     }
 
     @Override
@@ -34,14 +36,18 @@ public class HbmTracker implements Store, AutoCloseable {
         Session session = sf.openSession();
         try (session) {
             Transaction currentTransaction = session.beginTransaction();
-            item.setId(id);
-            session.update(item);
+            Query query = session.createQuery(
+                            "UPDATE Item SET name = :fName, created = :fCreated WHERE id = :fId")
+                    .setParameter("fName", item.getName())
+                    .setParameter("fCreated", item.getCreated())
+                    .setParameter("fId", id);
+            var affectedRows = query.executeUpdate();
             currentTransaction.commit();
-            return true;
+            return affectedRows > 0;
         } catch (Exception e) {
             session.getTransaction().rollback();
+            throw e;
         }
-        return false;
     }
 
     @Override
@@ -49,41 +55,60 @@ public class HbmTracker implements Store, AutoCloseable {
         Session session = sf.openSession();
         try (session) {
             Transaction currentTransaction = session.beginTransaction();
-            Item item = new Item();
-            item.setId(id);
-            session.delete(item);
+            Query query = session.createQuery(
+                            "DELETE Item WHERE id = :fId")
+                    .setParameter("fId", id);
+            var affectedRows = query.executeUpdate();
             currentTransaction.commit();
-            return true;
+            return affectedRows > 0;
         } catch (Exception e) {
             session.getTransaction().rollback();
+            throw e;
         }
-        return false;
     }
 
     @Override
     public List<Item> findAll() {
         Session session = sf.openSession();
-        List<Item> result = session.createQuery("FROM Item", Item.class).list();
-        session.close();
-        return result;
+        try (session) {
+            Transaction currentTransaction = session.beginTransaction();
+            List<Item> result = session.createQuery("FROM Item", Item.class).list();
+            currentTransaction.commit();
+            return result;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        }
     }
 
     @Override
     public List<Item> findByName(String key) {
-        Session session = sf.openSession();
+    Session session = sf.openSession();
+        try (session) {
+        Transaction currentTransaction = session.beginTransaction();
         List<Item> result = session.createQuery("FROM Item WHERE name = :fName", Item.class)
                 .setParameter("fName", key)
                 .list();
-        session.close();
+        currentTransaction.commit();
         return result;
+    } catch (Exception e) {
+        session.getTransaction().rollback();
+        throw e;
     }
+}
 
     @Override
     public Item findById(int id) {
         Session session = sf.openSession();
-        Item result = session.get(Item.class, id);
-        session.close();
-        return result;
+        try (session) {
+            Transaction currentTransaction = session.beginTransaction();
+            Item result = session.get(Item.class, id);
+            currentTransaction.commit();
+            return result;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        }
     }
 
     @Override
