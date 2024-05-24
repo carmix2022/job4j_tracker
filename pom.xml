@@ -15,7 +15,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <!--suppress UnresolvedMavenProperty -->
         <docker_db_url_jdbc>${JDBC_URL}</docker_db_url_jdbc>
     </properties>
 

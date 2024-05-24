@@ -1,9 +1,11 @@
 package ru.job4j.tracker.store;
 
 import ru.job4j.tracker.Item;
+import ru.job4j.tracker.StartUI;
 import ru.job4j.tracker.Store;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -15,28 +17,63 @@ public class SqlTracker implements Store {
 
     private Connection cn;
 
-    public SqlTracker() {
-        init();
+    public SqlTracker() throws SQLException, ClassNotFoundException {
+//        init();
+        cn = loadConnection();
     }
 
     public SqlTracker(Connection cn) {
         this.cn = cn;
     }
 
-    private void init() {
-        try (InputStream in = new FileInputStream("db/liquibase.properties")) {
-            Properties config = new Properties();
+    private static String loadSysEnvIfNullThenConfig(String sysEnv, String key, Properties config) {
+        String value = System.getenv(sysEnv);
+        if (value == null) {
+            value = config.getProperty(key);
+        }
+        return value;
+    }
+
+    private static Connection loadConnection() throws ClassNotFoundException, SQLException {
+        System.out.println("start method loadConnection");
+        var config = new Properties();
+        try (InputStream in = StartUI.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
             config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            cn = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+        String url = loadSysEnvIfNullThenConfig("JDBC_URL", "url", config);
+        String username = loadSysEnvIfNullThenConfig("JDBC_USERNAME", "username", config);
+        String password = loadSysEnvIfNullThenConfig("JDBC_PASSWORD", "password", config);
+        String driver = loadSysEnvIfNullThenConfig("JDBC_DRIVER", "driver-class-name", config);
+
+        System.out.println("Connecting to database with the following settings:");
+        System.out.println("URL: " + url);
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password); // Be careful with logging passwords in a real application
+        System.out.println("Driver: " + driver);
+
+        Class.forName(driver);
+        return DriverManager.getConnection(
+                url, username, password
+        );
     }
+
+//    private void init() {
+//        try (InputStream in = new FileInputStream("db/liquibase.properties")) {
+//            Properties config = new Properties();
+//            config.load(in);
+//            Class.forName(config.getProperty("driver-class-name"));
+//            cn = DriverManager.getConnection(
+//                    config.getProperty("url"),
+//                    config.getProperty("username"),
+//                    config.getProperty("password")
+//            );
+//        } catch (Exception e) {
+//            throw new IllegalStateException(e);
+//        }
+//    }
 
     private Item createItem(ResultSet rs) throws SQLException {
         return new Item(
